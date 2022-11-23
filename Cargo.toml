@@ -19,6 +19,7 @@ custom-impl = []
 [dependencies]
 bare-metal = "1.0.0"
 cfg-if = "1.0.0"
+critical-section_1 = { package = "critical-section", version = "1.1.1" }
 
 [target.thumbv6m-none-eabi.dependencies]
 cortex-m = "0.7.2"

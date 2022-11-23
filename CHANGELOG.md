@@ -7,7 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-No unreleased changes yet
+Breaking changes:
+
+- Implemented `with` in terms of critical-section 1.0.0. No critical-section
+  implementation is provided.
+- Removed `acquire`, `release` and `trait Impl`.
+
+Those breaking changes are necessary because versions <= 0.2.7 were unsound, and that
+was impossible to fix without a breaking change.
+
+This version is meant to minimize that breaking change. However, all
+users are encouraged to upgrade to critical-section 1.1.
 
 ## 0.2.7 - 2022-04-08
 
