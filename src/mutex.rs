@@ -1,5 +1,5 @@
 use super::CriticalSection;
-use core::cell::{Ref, RefCell, RefMut, UnsafeCell};
+use core::cell::{Ref, RefCell, RefMut};
 
 /// A mutex based on critical sections.
 ///
@@ -51,7 +51,7 @@ use core::cell::{Ref, RefCell, RefMut, UnsafeCell};
 /// [interior mutability]: https://doc.rust-lang.org/reference/interior-mutability.html
 #[derive(Debug)]
 pub struct Mutex<T> {
-    inner: UnsafeCell<T>,
+    inner: T,
 }
 
 impl<T> Mutex<T> {
@@ -59,7 +59,7 @@ impl<T> Mutex<T> {
     #[inline]
     pub const fn new(value: T) -> Self {
         Mutex {
-            inner: UnsafeCell::new(value),
+            inner: value,
         }
     }
 
@@ -71,19 +71,19 @@ impl<T> Mutex<T> {
     /// unwanted optimizations.
     #[inline]
     pub fn get_mut(&mut self) -> &mut T {
-        unsafe { &mut *self.inner.get() }
+        &mut self.inner
     }
 
     /// Unwraps the contained value, consuming the mutex.
     #[inline]
     pub fn into_inner(self) -> T {
-        self.inner.into_inner()
+        self.inner
     }
 
     /// Borrows the data for the duration of the critical section.
     #[inline]
     pub fn borrow<'cs>(&'cs self, _cs: CriticalSection<'cs>) -> &'cs T {
-        unsafe { &*self.inner.get() }
+        &self.inner
     }
 }
 
